@@ -1,44 +1,68 @@
 # Chess.com Confirm Move Hotkeys
 
-Мінімальне Chrome/Chromium-розширення Manifest V3 для керування вікном
-підтвердження ходу на Chess.com з клавіатури.
+[Українська версія](README.uk.md)
 
-## Встановлення
+A minimal Manifest V3 extension for Chrome and Chromium-based browsers that
+controls the Chess.com move confirmation dialog with keyboard shortcuts.
 
-1. Відкрийте `chrome://extensions`.
-2. Увімкніть **Developer mode**.
-3. Натисніть **Load unpacked**.
-4. Виберіть папку цього проєкту.
-5. Перезавантажте вже відкриту вкладку Chess.com.
+## Install locally
 
-## Гарячі клавіші
+This extension is not distributed through the Chrome Web Store. Install it as
+an unpacked extension from a local copy of this repository.
 
-- `Space` — підтвердити хід.
-- `Escape` — скасувати хід.
+### 1. Get the extension files
 
-Клавіші обробляються лише тоді, коли відповідна видима й активна кнопка
-підтвердження або скасування присутня на сторінці. Розширення ігнорує введення
-у формах, текстових полях і редагованих елементах, а також комбінації з
-клавішами-модифікаторами.
+Choose one option:
 
-## Підтримувані сторінки
+- Clone the repository:
 
-Content script запускається лише на таких URL:
+  ```bash
+  git clone https://github.com/saladin-uzh/chess-confirm-move-hotkeys.git
+  ```
+
+- Or select **Code → Download ZIP** on GitHub and extract the downloaded
+  archive. Do not load the ZIP file directly.
+
+### 2. Load the unpacked extension
+
+1. Open `chrome://extensions` in Chrome or a Chromium-based browser.
+2. Enable **Developer mode**.
+3. Select **Load unpacked**.
+4. Select the extracted `chess-confirm-move-hotkeys` directory containing
+   `manifest.json`.
+5. Reload any Chess.com tabs that were already open.
+
+After pulling or downloading an update, select the extension's **Reload**
+button on `chrome://extensions`, then reload the Chess.com tab.
+
+## Shortcuts
+
+- `Space` confirms the move.
+- `Escape` cancels the move.
+
+The extension handles a shortcut only when the corresponding visible and
+enabled confirmation or cancellation button is present. It ignores key events
+inside form controls, text fields, editable elements, and shortcuts combined
+with modifier keys.
+
+## Supported pages
+
+The content script runs only on:
 
 - `https://www.chess.com/play/*`
 - `https://www.chess.com/game/*`
 - `https://www.chess.com/analysis/game/*`
 
-## Усунення проблем
+## Troubleshooting
 
-- Перезавантажте вкладку Chess.com після встановлення або оновлення розширення.
-- Переконайтеся, що підтвердження ходу ввімкнене в налаштуваннях Chess.com.
-- Відкрийте консоль сторінки та знайдіть повідомлення
+- Reload the Chess.com tab after installing or updating the extension.
+- Verify that move confirmation is enabled in your Chess.com settings.
+- Open the page console and look for
   `[Chess.com Confirm Move Hotkeys] Initialized.`
-- Перевірте, що поточний URL входить до списку підтримуваних сторінок.
+- Confirm that the current page URL matches one of the supported patterns.
 
-## Безпека та приватність
+## Security and privacy
 
-Розширення не запитує додаткових дозволів, не виконує зовнішніх мережевих
-запитів і не збирає та не передає дані. Воно запускається лише на перелічених
-URL Chess.com.
+The extension requests no additional permissions, makes no external network
+requests, and does not collect or transmit data. It runs only on the listed
+Chess.com URLs.
