@@ -7,6 +7,11 @@
     "div.confirm-move-buttons .cc-button-primary";
   const BUTTONS_ROOT_SELECTOR = "div.confirm-move-buttons";
   const CANCEL_CANDIDATE_SELECTOR = "button, .cc-button, a";
+  const {
+    KEYBINDING_STORAGE_KEY,
+    normalizeKeybindings,
+  } = globalThis.ChessConfirmMoveSettings;
+  let keybindings = normalizeKeybindings(null);
 
   function isClickable(element) {
     if (!(element instanceof HTMLElement)) {
@@ -70,9 +75,9 @@
 
     let button = null;
 
-    if (event.code === "Space" || event.key === " ") {
+    if (event.code === keybindings.confirmKeyCode) {
       button = findConfirmButton();
-    } else if (event.key === "Escape" || event.code === "Escape") {
+    } else if (event.code === keybindings.cancelKeyCode) {
       button = findCancelButton();
     }
 
@@ -85,6 +90,24 @@
     event.stopImmediatePropagation();
   }
 
+  async function loadKeybindings() {
+    try {
+      const data = await chrome.storage.sync.get(KEYBINDING_STORAGE_KEY);
+      keybindings = normalizeKeybindings(data[KEYBINDING_STORAGE_KEY]);
+    } catch (error) {
+      keybindings = normalizeKeybindings(null);
+    }
+  }
+
+  chrome.storage.onChanged.addListener((changes, areaName) => {
+    if (areaName !== "sync" || changes[KEYBINDING_STORAGE_KEY] === undefined) {
+      return;
+    }
+
+    keybindings = normalizeKeybindings(changes[KEYBINDING_STORAGE_KEY].newValue);
+  });
+
+  loadKeybindings();
   window.addEventListener("keydown", handleKeydown, true);
   console.info("[Chess.com Confirm Move Hotkeys] Initialized.");
 })();
